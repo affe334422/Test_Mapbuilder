@@ -1,0 +1,51 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+public class Platform_builderV1 : _GameRunSetup
+{
+    public Platform_builderV1(GraphicsDeviceManager _graphics, SpriteBatch _spriteBatch, Texture2D texture) : base(_graphics,_spriteBatch,texture)
+    {
+        
+    }
+    List<MinRotRect> Lmin = new List<MinRotRect>{new MinRotRect(0,0,100,100),new MinRotRect(0,0,100,100)};
+    Build_rec build_Rec;
+    public override void Update(GameTime gameTime)
+    {
+        if (KeyboardHelper.IsKeyDown(Keys.N))
+        {
+            build_Rec = new Build_rec(Lmin);
+        }
+        if (KeyboardHelper.IsKeyDown(Keys.C))
+        {
+            build_Rec=null;
+        }
+        if (build_Rec != null)
+        {
+            build_Rec.Update();
+            Lmin=build_Rec.ListOfRec;
+        }
+        
+    }
+    public override void Draw()
+    {
+        _spriteBatch.Begin();
+        if (build_Rec == null)
+        {
+            foreach (MinRotRect rec in Lmin)
+            {
+                _spriteBatch.Draw(texture,rec.centrum,null,new Color(rec.centrum_x/1800,0,rec.centrum_y/1000),rec.rotation,Vector2.One/2,new Vector2(rec.width / (float)texture.Width,rec.height / (float)texture.Height),SpriteEffects.None,0f);
+            }
+        }
+
+
+        _spriteBatch.End();
+        if(build_Rec!=null){
+            build_Rec.Draw(_spriteBatch,texture);
+        }
+    }
+}

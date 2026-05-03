@@ -1,2 +1,2 @@
-﻿using var game = new Test_Mapbuilder.Game1();
+﻿using var game = new Game1();
 game.Run();
