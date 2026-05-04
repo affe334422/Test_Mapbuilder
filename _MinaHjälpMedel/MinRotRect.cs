@@ -118,29 +118,33 @@ public class MinRotRect
                 Centrum.Y + ry);
         }
     }
-    public bool Contains(Vector2 punkt)
+    public Vector2[] GetSortedCorners()
     {
-        bool inside=false;
+        Vector2[] sorted = (Vector2[])Hörn.Clone();
 
-        for(int i=0;i<Hörn.Length;i++)
+        Array.Sort(sorted, (a, b) =>
         {
-            int j=(i+1)%Hörn.Length;
+            if (a.Y == b.Y)
+                return a.X.CompareTo(b.X); // vänster först
+            return a.Y.CompareTo(b.Y);     // överst först
+        });
 
-            Vector2 A=Hörn[i];
-            Vector2 B=Hörn[j];
+        return sorted;
+    }
+    public bool Contains(Vector2 point)
+    {
+        // Flytta till lokal space
+        Vector2 local = point - Centrum;
 
-            bool intersect =
-                ((A.Y>punkt.Y)!=(B.Y>punkt.Y)) &&
-                (punkt.X<
-                (B.X-A.X)*
-                (punkt.Y-A.Y)/
-                (B.Y-A.Y)
-                +A.X);
+        // Rotera tillbaka (inverse rotation)
+        float cos = (float)Math.Cos(-Rotation);
+        float sin = (float)Math.Sin(-Rotation);
 
-            if(intersect)
-                inside=!inside;
-        }
+        float x = local.X * cos - local.Y * sin;
+        float y = local.X * sin + local.Y * cos;
 
-        return inside;
+        // Kolla inom box
+        return Math.Abs(x) <= Width / 2f &&
+            Math.Abs(y) <= Height / 2f;
     }
 }

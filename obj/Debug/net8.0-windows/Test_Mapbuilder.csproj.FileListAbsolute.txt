@@ -25,3 +25,4 @@ C:\Users\alle07002\OneDrive - Växjö kommun\Skrivbordet\program\Test_Mapbuilder
 C:\Users\alle07002\OneDrive - Växjö kommun\Skrivbordet\program\Test_Mapbuilder\obj\Debug\net8.0-windows\Test_Mapbuilder.genruntimeconfig.cache
 C:\Users\alle07002\OneDrive - Växjö kommun\Skrivbordet\program\Test_Mapbuilder\obj\Debug\net8.0-windows\ref\Test_Mapbuilder.dll
 C:\Users\alle07002\OneDrive - Växjö kommun\Skrivbordet\program\Test_Mapbuilder\bin\Debug\net8.0-windows\Content\Gamefont.xnb
+C:\Users\alle07002\OneDrive - Växjö kommun\Skrivbordet\program\Test_Mapbuilder\obj\Debug\net8.0-windows\Test_Mapbuilder.sourcelink.json

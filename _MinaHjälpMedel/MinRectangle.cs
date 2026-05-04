@@ -32,6 +32,10 @@ public class MinRectangle
         }
     }
     public Rectangle rec{get=>rectangle;}
+    public bool Contains(Vector2 Point)
+    {
+        return rectangle.Contains(Point);
+    }
     public Vector2 centrum{
         get=>Centrum;
         set{

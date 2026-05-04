@@ -101,7 +101,7 @@ public class Build_rec
     {
         foreach(MinRotRect min in Lmin)
         {
-            if (min.rec.Contains(MouseHelper.CurretPosition())&&MouseHelper.RightClick())
+            if (min.Contains(MouseHelper.CurretPosition())&&MouseHelper.RightClick())
             {
                 SelectedRec = min;
             }
@@ -228,7 +228,8 @@ public class Build_rec
             else
             {
                 _spritebatch.Draw(texture,SelectedRec.centrum,null,Color.Red,SelectedRec.rotation,Vector2.One/2,new Vector2(SelectedRec.width / (float)texture.Width,SelectedRec.height / (float)texture.Height),SpriteEffects.None,0f);
-                //_spritebatch.Draw(texture,NewRotation.centrum,null,Color.DarkRed,NewRotation.rotation,Vector2.One/2,new Vector2(NewRotation.width / (float)texture.Width,NewRotation.height / (float)texture.Height),SpriteEffects.None,0f);
+                //_spritebatch.Draw(texture,new MinRectangle(SelectedRec.GetSortedCorners()[0],10,10).rec,Color.Red);    
+               //_spritebatch.Draw(texture,NewRotation.centrum,null,Color.DarkRed,NewRotation.rotation,Vector2.One/2,new Vector2(NewRotation.width / (float)texture.Width,NewRotation.height / (float)texture.Height),SpriteEffects.None,0f);
             }
         }
 
