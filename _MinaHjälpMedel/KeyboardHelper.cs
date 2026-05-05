@@ -8,7 +8,7 @@ public static class KeyboardHelper
     private static KeyboardState previous;
     private static KeyboardState current;
     private static bool AllkeysUp = true;
-    private static List<Keys> Klist = new List<Keys>{Keys.Down,Keys.Up,Keys.Delete,Keys.A,Keys.B,Keys.O,Keys.Left};
+    private static List<Keys> Klist = new List<Keys>{Keys.Down,Keys.W,Keys.A,Keys.S,Keys.D,Keys.Right,Keys.Up,Keys.Delete,Keys.A,Keys.B,Keys.O,Keys.Left};
     public static void Update()
     {
         previous = current;

@@ -23,33 +23,34 @@ public class Build_rec
     {
         this.Lmin=Lmin;
     }
+    
     public List<MinRotRect> ListOfRec{get=>Lmin;} 
     /*
     behöver jag komma ihåg att göra så listan ligger i "rummet" 
     jag är i så jag inte har alla i samma lista.
     ja jag kan göra ett stort rum med camera2d.
     */
-    private List<MinRotRect> Lmin;
-    private enum BuildOrOther
+    protected List<MinRotRect> Lmin;
+    protected enum BuildOrOther
     {
         Build,
         Other
     }
-    private BuildOrOther Bstep; // bygger du eller ändrar du.
-
-
-    public Vector2 StartPos;
-    private bool IsItANewRecs = true;
-    public void BuildNewRecs()// bygger nya recktanglar
+    protected BuildOrOther Bstep; // bygger du eller ändrar du.
+    protected Vector2 currMouse;
+    protected Vector2 prevMouse;
+    protected Vector2 StartPos;
+    protected bool IsItANewRecs = true;
+    protected virtual void BuildNewRecs()// bygger nya recktanglar
     {
         BuildANewRec();
         DeleteInBuilder();
     }
-    private void BuildANewRec()
+    protected virtual void BuildANewRec()
     {
         if (IsItANewRecs&&MouseHelper.Click())
         {
-            StartPos = MouseHelper.CurretPosition();
+            StartPos = currMouse;
             Lmin.Add(new MinRotRect(StartPos, 1, 1));
             IsItANewRecs = false;
         }
@@ -63,7 +64,7 @@ public class Build_rec
         if(!IsItANewRecs){
             if(Lmin.Count>0)
             {
-                Vector2 current = MouseHelper.CurretPosition();
+                Vector2 current = currMouse;
                 int x = (int)Math.Min(StartPos.X, current.X);
                 int y = (int)Math.Min(StartPos.Y, current.Y);
                 int width = (int)Math.Abs(current.X - StartPos.X);
@@ -73,7 +74,7 @@ public class Build_rec
             }
         }
     }
-    private void DeleteInBuilder()
+    protected virtual void DeleteInBuilder()
     {
         if (KeyboardHelper.AllKeysUp()&&KeyboardHelper.IsKeyDown(Keys.Delete)&&Lmin.Count>0)
         {
@@ -83,9 +84,9 @@ public class Build_rec
     }
     
 
-    private MinRotRect SelectedRec;
-    int corner;
-    public void ReSizeMove() // Ändra storlek eller det du vill
+    protected MinRotRect SelectedRec;
+    protected int corner;
+    protected virtual void ReSizeMove() // Ändra storlek eller det du vill
     {
         ChooseARec();
         if (SelectedRec != null)
@@ -95,24 +96,24 @@ public class Build_rec
             MoveUpOrDownInList();
         }
     }
-    private bool MoveEveryting = false;
-    private bool RotateIt=false;
-    private void ChooseARec()
+    protected bool MoveEveryting = false;
+    protected bool RotateIt=false;
+    protected virtual void ChooseARec()
     {
         foreach(MinRotRect min in Lmin)
         {
-            if (min.Contains(MouseHelper.CurretPosition())&&MouseHelper.RightClick())
+            if (min.Contains(currMouse)&&MouseHelper.RightClick())
             {
                 SelectedRec = min;
             }
         }   
     }
-    private void ReSizeOrMove()
+    protected virtual void ReSizeOrMove()
     {
         if(!MouseHelper.isPressed()){
             MoveEveryting=false;
             RotateIt=false;
-            corner = SelectedRec.VilketHörnRörDu(MouseHelper.CurretPosition());
+            corner = SelectedRec.VilketHörnRörDu(currMouse);
         }
         else if (corner != -1)
         {
@@ -120,7 +121,7 @@ public class Build_rec
 
             Vector2 fixedCorner = SelectedRec.hörn[opposite];
 
-            Vector2 center = (fixedCorner + MouseHelper.CurretPosition()) / 2f;
+            Vector2 center = (fixedCorner + currMouse) / 2f;
 
             Vector2 axisX = new Vector2(
                 (float)Math.Cos(SelectedRec.rotation),
@@ -128,7 +129,7 @@ public class Build_rec
 
             Vector2 axisY = new Vector2(-axisX.Y, axisX.X);
 
-            Vector2 diff = MouseHelper.CurretPosition() - fixedCorner;
+            Vector2 diff = currMouse - fixedCorner;
 
             float width = Math.Abs(Vector2.Dot(diff, axisX));
             float height = Math.Abs(Vector2.Dot(diff, axisY));
@@ -136,19 +137,19 @@ public class Build_rec
             SelectedRec.centrum = center;
             SelectedRec.ChangeSize((int)(width+0.5), (int)(height+0.5));
         }
-        else if (SelectedRec.Contains(MouseHelper.CurretPosition())&&MouseHelper.isPressed()&&!RotateIt||MoveEveryting&&!RotateIt)
+        else if (SelectedRec.Contains(currMouse)&&MouseHelper.isPressed()&&!RotateIt||MoveEveryting&&!RotateIt)
         {
             MoveEveryting=true;
-            SelectedRec.centrum+=MouseHelper.CurretPosition()-MouseHelper.PreviousPosition();
-        }else if (!SelectedRec.Contains(MouseHelper.CurretPosition())&&MouseHelper.isPressed()&&!MoveEveryting||RotateIt&&!MoveEveryting)
+            SelectedRec.centrum+=currMouse-prevMouse;
+        }else if (!SelectedRec.Contains(currMouse)&&MouseHelper.isPressed()&&!MoveEveryting||RotateIt&&!MoveEveryting)
         {
             RotateIt=true;
-            Vector2 curr = MouseHelper.CurretPosition() - SelectedRec.centrum;
-            Vector2 prev = MouseHelper.PreviousPosition() - SelectedRec.centrum;
+            Vector2 curr = currMouse - SelectedRec.centrum;
+            Vector2 prev = prevMouse - SelectedRec.centrum;
             SelectedRec.rotation+=(float)Math.Atan2(curr.Y, curr.X)-(float)Math.Atan2(prev.Y, prev.X);
         }
     }   
-    private void DeleteInReSize()
+    protected virtual void DeleteInReSize()
     {
         if (KeyboardHelper.IsKeyDown(Keys.Delete)&&KeyboardHelper.AllKeysUp())
         {
@@ -156,7 +157,7 @@ public class Build_rec
             SelectedRec=null;
         }
     }
-    private void MoveUpOrDownInList()
+    protected virtual void MoveUpOrDownInList()
     {
         if (KeyboardHelper.AllKeysUp())
         {
@@ -182,10 +183,10 @@ public class Build_rec
         }
     }
     
-    
-    
-    public void Update()
+    public virtual void Update()
     {
+        currMouse=MouseHelper.CurretPosition();
+        prevMouse=MouseHelper.PreviousPosition();
         if (KeyboardHelper.IsKeyDown(Keys.B))
         {
             Bstep = BuildOrOther.Build;
@@ -206,7 +207,7 @@ public class Build_rec
         }
     }
 
-    public void Draw(SpriteBatch _spritebatch,Texture2D texture)
+    public virtual void Draw(SpriteBatch _spritebatch,Texture2D texture)
     {
         // för att visa om man bygger eller ändrar. det kan ändras från enum till att göras i samma men lite lättare att använda om man har det så.
         if (Bstep == BuildOrOther.Build)
@@ -218,6 +219,7 @@ public class Build_rec
             _spritebatch.GraphicsDevice.Clear(Color.DarkBlue);
         }
 
+        
         _spritebatch.Begin();
         
         foreach (MinRotRect rec in Lmin)
@@ -229,11 +231,13 @@ public class Build_rec
             {
                 _spritebatch.Draw(texture,SelectedRec.centrum,null,Color.Red,SelectedRec.rotation,Vector2.One/2,new Vector2(SelectedRec.width / (float)texture.Width,SelectedRec.height / (float)texture.Height),SpriteEffects.None,0f);
                 //_spritebatch.Draw(texture,new MinRectangle(SelectedRec.GetSortedCorners()[0],10,10).rec,Color.Red);    
-               //_spritebatch.Draw(texture,NewRotation.centrum,null,Color.DarkRed,NewRotation.rotation,Vector2.One/2,new Vector2(NewRotation.width / (float)texture.Width,NewRotation.height / (float)texture.Height),SpriteEffects.None,0f);
+            //_spritebatch.Draw(texture,NewRotation.centrum,null,Color.DarkRed,NewRotation.rotation,Vector2.One/2,new Vector2(NewRotation.width / (float)texture.Width,NewRotation.height / (float)texture.Height),SpriteEffects.None,0f);
             }
         }
-
-
         _spritebatch.End();
+        
+        
+           
+        
     }
 }

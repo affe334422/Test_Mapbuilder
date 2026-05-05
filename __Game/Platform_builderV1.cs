@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 public class Platform_builderV1 : _GameRunSetup
 {
-    public Platform_builderV1(GraphicsDeviceManager _graphics, SpriteBatch _spriteBatch, Texture2D texture) : base(_graphics,_spriteBatch,texture)
+    public Platform_builderV1(Camera2D camera2D,GraphicsDeviceManager _graphics, SpriteBatch _spriteBatch, Texture2D texture) : base(camera2D,_graphics,_spriteBatch,texture)
     {
         Lmin = SaveLoadRotRec.Load();
     }

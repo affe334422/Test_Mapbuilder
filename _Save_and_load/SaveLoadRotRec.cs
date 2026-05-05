@@ -31,6 +31,7 @@ public static class SaveLoadRotRec
         }
         catch (Exception e)
         {
+            Console.WriteLine("SaveFel");
             Console.WriteLine("Save error: " + e.Message);
         }
     }
@@ -61,6 +62,7 @@ public static class SaveLoadRotRec
         }
         catch (Exception e)
         {
+            Console.WriteLine("LoadFel");
             Console.WriteLine("Load error: " + e.Message);
             return new List<MinRotRect>();
         }

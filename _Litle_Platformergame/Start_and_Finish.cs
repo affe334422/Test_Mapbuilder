@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Test_Mapbuilder.__Game
+namespace Test_Mapbuilder._Litle_Platformergame
 {
-    public class vOne_Platformer
+    public class Start_and_Finish
     {
         
     }

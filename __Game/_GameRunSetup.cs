@@ -10,8 +10,10 @@ public abstract class _GameRunSetup
     protected GraphicsDeviceManager _graphics;
     protected SpriteBatch _spriteBatch;
     protected Texture2D texture;
-    public _GameRunSetup(GraphicsDeviceManager _graphics, SpriteBatch _spriteBatch, Texture2D texture)
+    protected Camera2D camera2D;
+    public _GameRunSetup(Camera2D camera2D, GraphicsDeviceManager _graphics, SpriteBatch _spriteBatch, Texture2D texture)
     {
+        this.camera2D = camera2D;
         this._graphics = _graphics;
         this._spriteBatch = _spriteBatch;
         this.texture = texture;

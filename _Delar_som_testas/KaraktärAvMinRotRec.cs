@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
-namespace Test_Mapbuilder
+public class KaraktärAvMinRotRec : MinRotRect
 {
-    public class KaraktärAvMinRotRec
+    public KaraktärAvMinRotRec(Vector2 xy, int width, int height) : base(xy,width,height)
     {
         
     }
+    
 }

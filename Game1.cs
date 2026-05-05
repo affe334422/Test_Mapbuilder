@@ -8,6 +8,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Texture2D texture;
+    private Camera2D camera2D;
     _GameRunSetup _GameRun;
     SpriteFont GameFont;
     bool start = true;
@@ -23,6 +24,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here  
+        camera2D = new Camera2D(GraphicsDevice);
         base.Initialize();
     }
     protected override void LoadContent()
@@ -40,7 +42,7 @@ public class Game1 : Game
         if (start)
         {
             start=false;
-            _GameRun = new Platform_builderV1(_graphics,_spriteBatch,texture);
+            _GameRun = new vOne_Platformer(camera2D,_graphics,_spriteBatch,texture);
         }
         _GameRun.Update(gameTime);
 
